@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shadowland</title>
+  <link rel="stylesheet" href="/window.css">
+  <script type="module" src="/window.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <strong class="brand">Shadowland</strong>
+    <div class="header-actions"><span id="agent-status" role="status">Connecting…</span><button id="popout" class="quiet" type="button">Pop out</button></div>
+  </header>
+  <main class="layout">
+    <section class="conversation" aria-labelledby="story-title">
+      <div class="story-heading"><h1 id="story-title">Opening the channel</h1><span id="progress"></span></div>
+      <div id="transcript" class="transcript" role="log" aria-label="Fictional conversation" aria-live="polite" tabindex="0"><p id="loading">Connecting to your session…</p></div>
+      <section id="decision" class="decision" aria-labelledby="decision-title" hidden>
+        <h2 id="decision-title">Your decision</h2>
+        <div id="choices" class="choices"></div>
+        <p class="hint">The story waits for you. Your coding agent keeps working.</p>
+      </section>
+      <div class="continue-row"><button id="continue" type="button" hidden>Continue the story</button><p id="feedback" role="status" aria-live="polite"></p></div>
+    </section>
+    <aside aria-labelledby="cast-title">
+      <h2 id="cast-title">On this channel</h2>
+      <ul id="cast" class="cast"></ul>
+      <p class="channel-note">Fiction only. No reasoning, code, or tool output enters this window.</p>
+      <p class="channel-note">New dialogue follows the agent’s thinking blocks. You can also continue manually.</p>
+    </aside>
+  </main>
+</body>
+</html>

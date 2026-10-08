@@ -1,6 +1,6 @@
 # Shadowland
 
-Shadowland (`pi-shadowland`) replaces visible assistant reasoning with fictional conversations between two characters. Packs define the cast, voices, setting, and ongoing story: fantasy companions, detectives, office comedy, legal absurdity, or cyberpunk deckers. Shadowrun-style comms are one theme, not a requirement. Tools and final answers retain their normal rendering. Real reasoning stays in the host's messages and provider context; fiction is labeled **SHADOWLAND · fictional dialogue**.
+Shadowland (`pi-shadowland`) replaces visible assistant reasoning with fictional conversations between characters (two or more per pack). Packs define the cast, voices, setting, and ongoing story: fantasy companions, detectives, office comedy, legal absurdity, or cyberpunk deckers. Shadowrun-style comms are one theme, not a requirement. Tools and final answers retain their normal rendering. Real reasoning stays in the host's messages and provider context; fiction is labeled **SHADOWLAND · fictional dialogue**.
 
 Repository: [phin-tech/pi-shadowland](https://github.com/phin-tech/pi-shadowland).
 
@@ -42,7 +42,16 @@ Commands:
 /shadowland off
 /shadowland pack /absolute/path/to/stories/river-crossing.json
 /shadowland pack https://raw.githubusercontent.com/phin-tech/pi-shadowland/main/stories/ghost-wire.json
+/shadowland pack /absolute/path/to/stories/ghost-wire.lor
+/shadowland choose <number>
+/shadowland window | both | terminal
+/shadowland enter | exit | continue
+/shadowland overlay | overlay off | focus
 ```
+
+`/sl` is a short alias for every `/shadowland` command. Pass absolute paths inside the host: `$PWD` is not expanded in slash commands.
+
+**Story mode.** `/sl enter` makes Shadowland swallow what you type, via the host's `input` hook (Pi and OMP): a number picks that choice, `c` or an empty Enter continues, and `exit` leaves. Nothing typed in story mode reaches the agent. Slash commands always pass through, so `/sl exit` works even if something goes wrong. Story mode is per-session and is not saved; a resumed session starts with input going to the agent.
 
 On/off applies on the next transcript redraw. Switch packs while idle. Existing saved exchanges retain their original text; a new pack starts on the next unassigned block. A finite pack ends with a holding exchange in the same cast, not a restart or a switch to unrelated characters.
 
@@ -54,6 +63,48 @@ SHADOWLAND_PACK="$PWD/stories/river-crossing.json" omp -e "$PWD/omp.ts"
 ```
 
 The environment selection applies only to sessions without a saved Shadowland checkpoint. Resumed sessions keep their saved pack and cursor. Loading errors at startup produce a warning and use the built-in campaign; errors from `/shadowland pack` leave the current pack unchanged. URLs fetch once on selection, not during each reasoning update. Resume uses the saved snapshot rather than downloading a changed remote pack.
+
+## Interactive stories (Loreline)
+
+Besides fixed JSON packs, a `.lor` file is an interactive [Loreline](https://www.npmjs.com/package/loreline) script with state, conditions, branching choices, and scripted calculations. `stories/ghost-wire.lor` is a four-character example (NULL, HEX, MOTH, WREN) with two decisions. Load it like any pack: `/shadowland pack /path/to/ghost-wire.lor`, or `SHADOWLAND_PACK`.
+
+- Each reasoning block advances the story by up to four lines. At a choice the story **waits**; new reasoning blocks do not skip the decision. Choose with `/shadowland choose <number>` or in the companion window.
+- Scripts run in a worker thread with a 2-second limit per step, no environment, and imports disabled. This bounds runaway scripts; it is not an OS sandbox, so review scripts from untrusted sources.
+- Randomness is seeded and stored in the checkpoint, so resumed sessions replay the same lines and never reroll. Checkpoints (including the pending choice) are saved with `appendEntry` like other progress.
+- Stale controls are rejected: a choice or continue button from an earlier decision cannot select an option in a later one.
+- `bun run stories preview story.lor` plays a script interactively in a terminal; `validate` parses it and runs to the first dialogue/choice. `generate --out stories/name.lor` asks the configured model for a Loreline script and verifies it runs before saving.
+
+## Floating overlay
+
+`/sl overlay` shows the story as a small panel floating over the corner of the terminal, using the host's overlay API (Pi and OMP). It stays out of the transcript and updates as the story moves. Combined with story mode (`/sl enter`), choices are answered by typing the number.
+
+Open and close it with `/sl overlay` (or `/sl overlay off`). With the panel open, notifications for story steps are suppressed so the text isn't shown twice. By default the Pi panel does not take keyboard focus: use story mode (`/sl enter`) and type the number or `c`; `x` closes it. To type straight into the panel instead, run `/sl focus` (it opens the panel if needed). While focused, `1`–`9` choose, `c` or Enter continues, `Esc` hands the keyboard back to the prompt, and `x` closes. The story has no free-text input, only choices and continue. OMP's overlay API has no non-capturing option, so there the panel may take focus and read the keys (`1`–`9`, `c`/Enter, `x`/Esc) directly. Verified against a fake host in tests; not yet seen in a live Pi or OMP session.
+
+Illustrative layout (a mockup, not a captured screenshot):
+
+```text
+ ┌─ SHADOWLAND ──────────────────────────────┐
+ │ NULL: Socket wants the violet tariff      │
+ │ ledger out of Vesper Utility. Read-only   │
+ │ extraction. Allegedly.                    │
+ │                                           │
+ │ HEX: A megacorp invoice? Finally, crime   │
+ │ with a stationery budget.                 │
+ │                                           │
+ │ 1. Free WREN before copying the evidence  │
+ │ 2. Copy the evidence before freeing WREN  │
+ │                                           │
+ │ 1-2 choose · x close · /sl focus to type  │
+ └───────────────────────────────────────────┘
+```
+
+## Companion window
+
+`/shadowland window` (or `both`) opens a local browser view of the story; `terminal` closes it. Set `SHADOWLAND_DISPLAY=terminal|window|both` to choose the startup mode for sessions without a saved choice. The window is the way to read and answer choices without touching the terminal.
+
+- It binds to `127.0.0.1` on a random port. The URL carries a per-session bearer token in its fragment; requests without it, with a foreign `Origin`/`Host`, or carrying stale scene/generation ids are rejected.
+- Only fictional story data crosses the bridge: no reasoning, code, or tool output.
+- In `window` mode the terminal's reasoning is left alone, and the OMP renderer wrapper is not installed, so it also works on hosts without a replacement hook.
 
 ## Generate, review, and host packs
 
@@ -95,7 +146,7 @@ The prompt asks the model to preserve canon; structural validation cannot prove 
 
 ### Any two characters
 
-Use `--cast` with a JSON array of exactly two `{ "name", "persona" }` objects. Names become dialogue speakers; personas establish voices and relationships. No Shadowrun terminology is required. Create original characters for any genre, or use recognizable book characters for new fan-fiction scenes. `casts/fantasy-companions.json` demonstrates Frodo and Sam:
+Use `--cast` with a JSON array of two or more `{ "name", "persona" }` objects with distinct names. Names become dialogue speakers; personas establish voices and relationships. No Shadowrun terminology is required. Create original characters for any genre, or use recognizable book characters for new fan-fiction scenes. `casts/fantasy-companions.json` demonstrates Frodo and Sam:
 
 ```sh
 bun run stories generate \
@@ -146,7 +197,7 @@ The same format works for generated and handwritten conversations. An abbreviate
 }
 ```
 
-Array order is playback order. Packs contain 1–100 uniquely identified scenes, each with 2–4 lines and both cast members. Lines are at most 240 characters. Terminal controls and invisible formatting characters are rejected; rendering escapes Markdown and HTML. Remote/local JSON is bounded to 1 MiB. The cast is attached to parsed scene snapshots automatically.
+Array order is playback order. Packs contain 1–100 uniquely identified scenes, each with 2–4 lines spoken by at least two cast members (larger casts can rotate). Lines are at most 240 characters. Terminal controls and invisible formatting characters are rejected; rendering escapes Markdown and HTML. Remote/local JSON is bounded to 1 MiB. The cast is attached to parsed scene snapshots automatically.
 
 ## Verification
 
@@ -157,6 +208,6 @@ bun test
 
 Exercised: real Pi 0.85.1 and OMP 18.8.5 ANSI terminal replay and live reasoning streaming with a local provider fixture; preservation of canonical reasoning in both saved sessions; OMP shutdown without raw-reasoning repaint; OMP resume retaining the first exchange and advancing to the next saved-pack beat; a custom Frodo/Sam pack in the Pi terminal; generate/augment/validate/preview CLI flows; HTTP-hosted pack loading; malformed completion rejection and request cancellation.
 
-Shadowland cutover checks: TypeScript and seven regression tests pass; the new fantasy pack validates and previews; `SHADOWLAND_MODEL` / `SHADOWLAND_BASE_URL` / `SHADOWLAND_API_KEY` drive generate and augment against a local provider fixture; `SHADOWLAND_PACK` loads fantasy dialogue into both terminal UIs; `/shadowland status` reports Pi progress; `/shadowland pack` selects the GitHub-hosted Ghost Wire pack in OMP and persists the selection under `shadowland-state`.
+Shadowland cutover checks: TypeScript and 15 regression tests pass (including Loreline checkpoint/choice behavior and the window's auth and stale-control checks); the new fantasy pack validates and previews; `SHADOWLAND_MODEL` / `SHADOWLAND_BASE_URL` / `SHADOWLAND_API_KEY` drive generate and augment against a local provider fixture; `SHADOWLAND_PACK` loads fantasy dialogue into both terminal UIs; `/shadowland status` reports Pi progress; `/shadowland pack` selects the GitHub-hosted Ghost Wire pack in OMP and persists the selection under `shadowland-state`.
 
 The earlier pack was published to GitHub and its raw URL validated. No paid generation provider, Tern native surface, or host-upgrade compatibility was exercised. Narrative quality of a chosen cheap model remains something to review, not an assertion of the fixture smoke runs.

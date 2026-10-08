@@ -1,0 +1,91 @@
+// Original Shadowland fiction. Four characters, three threads, two decisions.
+character zero
+  name: NULL
+  persona: A cautious veteran decker with a dry sense of humor.
+
+character hex
+  name: HEX
+  persona: "An inventive, impulsive decker who trusts people more than systems."
+  trust: 1
+
+character moth
+  name: MOTH
+  persona: A fixer who hides concern behind invoices.
+
+character wren
+  name: WREN
+  persona: A captive Matrix courier who remembers every promise.
+
+state
+  heat: 0
+  clinicDebt: 6
+
+function debtAfterCredit(debt, credit)
+  if debt > credit
+    return debt - credit
+  return 0
+
+beat Contact
+  moth: A municipal utility is selling outage forecasts before it cuts the power.
+  zero: Evidence first. Heroics after the checksum.
+  hex: The clinic owes them six payments. Their generator owes them nothing.
+  wren: I carried the forecast. Now the forecast carries me in a locked archive.
+  choice
+    Free WREN before copying the evidence
+      hex.trust += 1
+      heat += 1
+      -> Rescue
+    Copy the evidence before freeing WREN
+      -> Evidence
+
+beat Rescue
+  hex: WREN, follow the fake maintenance moth. Its wings are a terrible password.
+  wren: Terrible passwords are how I got this job.
+  zero: Courier extracted. Someone noticed the archive door.
+  moth: I can buy you one diversion. Not two. My conscience has a budget.
+  -> Bargain
+
+beat Evidence
+  zero: Forecast copied. Every planned blackout has a customer number.
+  moth: Mine is on page three. Charming attention to detail.
+  hex: We got the ledger. Now we get the person who carried it.
+  wren: Finally. I was starting to think I was a file attachment.
+  -> Bargain
+
+beat Bargain
+  moth: The utility offers a clinic credit if we bury the forecast.
+  hex: A debt written by an extortionist is not weather.
+  zero: The courier is safe. The clinic is not. We still have a decision.
+  wren: Let me help make it. I know the people behind those numbers.
+  choice
+    Publish the forecast and let the neighborhood prepare
+      heat += 2
+      -> Publish
+    Trade a private copy for clinic debt relief
+      clinicDebt = debtAfterCredit(clinicDebt, 4)
+      -> Trade
+
+beat Publish
+  wren: The district has the schedule. They are moving medicine before the cuts.
+  moth: Three neighborhoods just canceled their utility payments together.
+  hex: A chorus is harder to disconnect than a solo.
+  zero: And louder. Heat is $heat. We leave separately.
+  -> Aftermath
+
+beat Trade
+  moth: Four payments erased. The clinic still owes $clinicDebt.
+  zero: They bought silence, not permission. WREN keeps the original forecast.
+  hex: Next time we bargain with every district at the table.
+  wren: Next time I choose where the archive key lives.
+  -> Aftermath
+
+beat Aftermath
+  if hex.trust > 1
+    hex: You chose WREN before the ledger. I will remember that.
+    zero: You already remember every reckless thing I do.
+  else
+    hex: Evidence first worked. Do not let it become people last.
+    zero: Agreed. A checksum cannot tell us who deserved the risk.
+  moth: The clinic has one more night of power. Tonight counts.
+  wren: Keep this channel open. Tomorrow I have a story of my own.
+  -> .

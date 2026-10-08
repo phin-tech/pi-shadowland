@@ -21,6 +21,8 @@ export interface Scene {
   canon: string;
   lines: DialogueLine[];
   characters: Character[];
+  choices?: Array<{ text: string; enabled: boolean }>;
+  choiceId?: string;
 }
 
 export interface StoryState {
@@ -396,6 +398,15 @@ export function nextScene(state: StoryState): { state: StoryState; scene: Scene 
 }
 
 function safeMarkdown(text: string): string {
+  return plainText(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/[\\`*_{}\[\]()#+\-.!|~]/g, "\\$&");
+}
+
+/** Strip terminal sequences and control characters; the result is safe to print as plain text. */
+export function plainText(text: string): string {
   return text
     // Drop terminal sequences, including OSC hyperlinks, before their control
     // introducers are removed. The remaining text cannot issue terminal commands.
@@ -404,14 +415,24 @@ function safeMarkdown(text: string): string {
     .replace(/\u009d[^\u0007\u009c]*(?:\u0007|\u009c)/g, "")
     .replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u2028-\u202e\u2060-\u206f\ufeff]/g, " ")
     .replace(/\s+/g, " ")
-    .trim()
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/[\\`*_{}\[\]()#+\-.!|~]/g, "\\$&");
+    .trim();
 }
 
 export function formatScene(scene: Scene): string {
   const lines = scene.lines.map((line) => `${safeMarkdown(line.speaker)}: ${safeMarkdown(line.text)}`);
-  return ["SHADOWLAND · fictional dialogue", ...lines].join("\n\n");
+  const choices = scene.choices?.map((option, index) => `${index + 1}. ${safeMarkdown(option.text)}${option.enabled ? "" : " (unavailable)"}`) ?? [];
+  return ["SHADOWLAND · fictional dialogue", ...lines, ...choices, ...(choices.length ? ["Choose with /shadowland choose <number>. The story waits; your agent keeps working."] : [])].join("\n\n");
+}
+
+/**
+ * For notifications and the CLI: same content as formatScene, without Markdown escapes.
+ * `emphasis` adds ANSI styling to counter hosts that draw notifications in a dim color. It is
+ * applied only around text that plainText() has already stripped of terminal sequences.
+ */
+export function formatScenePlain(scene: Scene, emphasis = false): string {
+  const bright = (text: string) => emphasis ? `\u001b[97m${text}\u001b[39m` : text;
+  const bold = (text: string) => emphasis ? `\u001b[1m${text}\u001b[22m` : text;
+  const lines = scene.lines.map((line) => bright(`${bold(plainText(line.speaker))}: ${plainText(line.text)}`));
+  const choices = scene.choices?.map((option, index) => bright(`${bold(String(index + 1))}. ${plainText(option.text)}${option.enabled ? "" : " (unavailable)"}`)) ?? [];
+  return [...lines, ...choices, ...(choices.length ? ["Type a choice number, or use /sl choose <number>. The story waits; your agent keeps working."] : [])].join("\n\n");
 }

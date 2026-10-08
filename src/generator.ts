@@ -1,5 +1,9 @@
-import { DEFAULT_CAST, type Scene, type Character } from "./story.js";
-import { parsePack, parseCast, type StoryPack } from "./packs.js";
+import { DEFAULT_CAST } from "./story.js";
+import { parsePack, parseCast } from "./packs.js";
+import type { Scene, Character } from "./story.js";
+import type { StoryPack } from "./packs.js";
+import { LorelineRuntime, parseLorelineStory } from "./loreline.js";
+import type { LorelineStory } from "./loreline.js";
 
 export interface GeneratorConfig {
   baseUrl: string;
@@ -10,11 +14,11 @@ export interface GeneratorConfig {
 const TIMEOUT_MS = 15_000;
 const MAX_LINE_LENGTH = 240;
 const UNSAFE_TEXT = /[\p{Cc}\p{Cf}\u2028\u2029]/u;
-const PERSONAS = `Write original fictional dialogue between exactly the two characters in the supplied cast.
+const PERSONAS = `Write original fictional dialogue among characters in the supplied cast.
 Follow each character's persona and the supplied setting, premise, and relationship. Their distinct voices carry the story.
 Recognizable book characters are permitted, but invent new dialogue: never reproduce book passages, quotations, or lyrics.
 Never discuss coding tasks, AI assistants, or hidden reasoning.
-Each exchange contains 2–4 short lines, includes both cast members, and uses their exact names as speakers.
+Each exchange contains 2–4 short lines, includes at least two cast members, and uses their exact names as speakers. Rotate smaller groups through an ensemble; not everyone needs to speak in every scene.
 Each text is a single plain-text line of at most 240 characters, with no control characters, terminal escapes, or invisible formatting characters.
 Return only the requested JSON object, without Markdown fences or commentary.`;
 
@@ -85,7 +89,7 @@ export async function generatePack(
     config,
     `${PERSONAS}
 Generate a complete, original, ordered story pack from the supplied fictional premise.
-Return exactly the requested number of scenes. Both cast members recur in every scene.
+Return exactly the requested number of scenes. Develop the ensemble across the story, allowing different groups to speak in different scenes.
 Establish recurring plot threads, escalate them across successive beats, and pay them off by the final scene.
 Every scene must advance the story rather than reset it. Keep continuity of knowledge, injuries, relationships, and consequences.
 The final scene resolves the main arc; do not end with an unresolved cliffhanger.
@@ -124,6 +128,27 @@ Return {"title":"...","description":"...","scenes":[{"title":"...","canon":"..."
   });
 }
 
+/** Generates executable story source, validated by the same isolated runtime as playback. */
+export async function generateLoreline(
+  config: GeneratorConfig,
+  options: { id: string; premise: string; scenes: number; characters?: Character[] },
+  signal?: AbortSignal,
+): Promise<LorelineStory> {
+  if (!Number.isInteger(options.scenes) || options.scenes < 6 || options.scenes > 24 || !options.premise.trim()) throw new Error("Loreline generation needs a premise and 6–24 beats");
+  const characters = parseCast(options.characters ?? DEFAULT_CAST);
+  const response = requireObject(await requestJson(config, `Write original interactive fiction as a self-contained Loreline (.lor) script.
+Follow the supplied cast and premise; invent dialogue, never quote books or lyrics. Never discuss coding, assistants, or hidden reasoning.
+Declare each character with a safe identifier (not reserved words such as null), name and persona fields. Quote field strings containing punctuation such as commas.
+Use state variables, branching choices, conditional dialogue, and recurring subplots with consequences. Each beat has 2–4 short dialogue lines (maximum 240 characters each).
+Use -> BeatName transitions and -> . to end every story route. All destinations must exist. Include approximately the requested number of beats.
+Function scripting is permitted for pure story calculations. No imports, external functions, filesystem access, or host integrations.
+Return only {"title":"...","description":"...","source":"complete .lor source"} as JSON, without Markdown fences.`, { ...options, characters }, 800 + options.scenes * 450, signal), "Loreline response");
+  const story = parseLorelineStory({ format: "loreline", version: 1, id: options.id, title: response.title, description: response.description, source: response.source });
+  const runtime = new LorelineRuntime(story);
+  try { await runtime.next(); } finally { await runtime.close(); }
+  return story;
+}
+
 function requireObject(value: unknown, label: string): Record<string, unknown> {
   if (value === null || typeof value !== "object" || Array.isArray(value)) {
     throw new Error(`${label} must be a JSON object.`);
@@ -154,8 +179,8 @@ function validateLines(value: unknown, label: string, characters: Character[]): 
     speakers.add(line.speaker);
     return { speaker: line.speaker, text: line.text };
   });
-  if (speakers.size !== 2) {
-    throw new Error(`${label} must include both configured characters.`);
+  if (speakers.size < 2) {
+    throw new Error(`${label} must include at least two configured characters.`);
   }
   return lines;
 }

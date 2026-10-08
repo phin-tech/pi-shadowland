@@ -51,11 +51,6 @@ test("public packs reject ambiguous ids and terminal control injection", () => {
   expect(() => parsePack({ ...pack, scenes: [unsafe] })).toThrow("control characters");
 });
 
-test("a dialogue scene must include both characters", () => {
-  const single = structuredClone(first);
-  for (const line of single.lines) line.speaker = "NULL";
-  expect(() => parsePack({ ...pack, scenes: [single] })).toThrow("both characters");
-});
 
 test("formatting renders phrases as text, not terminal commands or Markdown links", () => {
   const scene = structuredClone(first);
@@ -86,4 +81,17 @@ test("custom casts survive playback, restore, and pack exhaustion", () => {
   expect(completed.lines.map(line => line.speaker)).toEqual(["Frodo", "Sam"]);
   const badScene = { ...scene, lines: [{ speaker: "NULL", text: "Wrong cast" }, scene.lines[1]] };
   expect(() => parsePack({ ...pack, characters, scenes: [badScene] })).toThrow("cast");
+});
+
+test("ensemble casts rotate speakers and finish without expanding the display", () => {
+  const characters = [...first.characters, { name: "MOTH", persona: "Fixer" }, { name: "WREN", persona: "Courier" }, { name: "DOC", persona: "Medic" }];
+  const second = { ...first, id: "second", lines: [{ speaker: "MOTH", text: "The courier made it." }, { speaker: "WREN", text: "So did the evidence." }] };
+  const story = parsePack({ ...pack, characters, scenes: [first, second] });
+  const playback = new Playback();
+  playback.usePack(story);
+  playback.scene("a");
+  expect(playback.scene("b").lines.map(line => line.speaker)).toEqual(["MOTH", "WREN"]);
+  const resumed = new Playback(JSON.parse(JSON.stringify(playback.snapshot())));
+  expect(resumed.scene("complete").lines.map(line => line.speaker)).toEqual(["MOTH", "WREN"]);
+  expect(() => parsePack({ ...story, characters: [...characters, { name: "MOTH", persona: "Duplicate" }] })).toThrow();
 });

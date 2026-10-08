@@ -1,14 +1,18 @@
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { createState, nextScene, formatScene, DEFAULT_CAST } from "./story.js";
-import { configFromEnv, generatePack, augmentScene } from "./generator.js";
-import { loadPack, parsePack, parseCast, type StoryPack } from "./packs.js";
+import { createInterface } from "node:readline/promises";
+import { createState, nextScene, formatScenePlain as formatScene, DEFAULT_CAST } from "./story.js";
+import { configFromEnv, generatePack, generateLoreline, augmentScene } from "./generator.js";
+import { loadPack, parsePack, parseCast } from "./packs.js";
+import { loadStory, LorelineRuntime, parseLorelineStory } from "./loreline.js";
+import type { StorySource } from "./loreline.js";
 
 const HELP = `shadowland — generate and publish themed character conversations
 
   bun run src/cli.ts builtin --out stories/ghost-wire.json [--seed 42] [--scenes 27]
   bun run src/cli.ts generate --id ghost-wire --premise "A fixer sells a haunted datachip" --out stories/ghost-wire.json [--scenes 12]
-  Optional generation flag: --cast characters.json (two names and persona descriptions)
+  Optional generation flag: --cast characters.json (two or more names and personas)
+  Use --out stories/my-story.lor to generate an interactive Loreline story instead of JSON.
   bun run src/cli.ts augment <file-or-url> --scene 1 --out stories/remix.json
   bun run src/cli.ts validate <file-or-url>
   bun run src/cli.ts preview <file-or-url>
@@ -16,7 +20,7 @@ const HELP = `shadowland — generate and publish themed character conversations
 Generation is opt-in. Set SHADOWLAND_MODEL, SHADOWLAND_API_KEY (or OPENAI_API_KEY),
 and optionally SHADOWLAND_BASE_URL (default https://api.openai.com/v1).
 Local OpenAI-compatible servers may omit the key. No coding context is sent.
-Output files are never overwritten. Commit JSON to GitHub; use its raw URL.
+Output files are never overwritten. Commit JSON or .lor to GitHub; use its raw URL.
 `;
 
 function options(args: string[]): Record<string, string> {
@@ -37,11 +41,12 @@ function count(value: string | undefined, fallback: number, min: number, max: nu
   return n;
 }
 
-async function save(pack: StoryPack, path: string): Promise<void> {
-  parsePack(pack);
+async function save(source: StorySource, path: string): Promise<void> {
+  const loreline = "format" in source;
+  const content = loreline ? parseLorelineStory(source).source : JSON.stringify(parsePack(source), null, 2);
   await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, JSON.stringify(pack, null, 2) + "\n", { flag: "wx" });
-  console.log(`Wrote ${path}: ${pack.title} (${pack.scenes.length} scenes)`);
+  await writeFile(path, content + "\n", { flag: "wx" });
+  console.log(`Wrote ${path}: ${source.title}${loreline ? " (interactive Loreline)" : ` (${source.scenes.length} scenes)`}`);
 }
 
 export async function main(args: string[]): Promise<void> {
@@ -49,10 +54,32 @@ export async function main(args: string[]): Promise<void> {
   if (!command || command === "--help" || command === "help") { console.log(HELP); return; }
   if (command === "preview" || command === "validate") {
     if (rest.length !== 1) throw new Error(`${command} requires one file or URL`);
-    const pack = await loadPack(rest[0]);
-    console.log(`${pack.title} · ${pack.scenes.length} scenes\n${pack.description}`);
+    const source = await loadStory(rest[0]);
+    if ("format" in source) {
+      const runtime = new LorelineRuntime(source);
+      const input = command === "preview" && process.stdin.isTTY ? createInterface({ input: process.stdin, output: process.stdout }) : undefined;
+      try {
+        let result = await runtime.next();
+        console.log(`${source.title} · interactive Loreline\n${source.description}`);
+        if (command === "validate") { console.log("Parsed and executed through the first dialogue/choice boundary."); return; }
+        for (;;) {
+          console.log(`\n${formatScene(result.scene)}`);
+          if (result.checkpoint.finished) break;
+          if (result.scene.choices) {
+            if (!input) { console.log("\nRun preview in an interactive terminal to select a branch."); break; }
+            const answer = await input.question("Choose a number (q to quit): ");
+            if (answer.trim() === "q") break;
+            const index = Number(answer);
+            if (!Number.isSafeInteger(index) || !result.scene.choices[index - 1]?.enabled) { console.log("Choose an enabled option."); continue; }
+            result = await runtime.choose(index - 1);
+          } else result = await runtime.next();
+        }
+      } finally { input?.close(); await runtime.close(); }
+      return;
+    }
+    console.log(`${source.title} · ${source.scenes.length} scenes\n${source.description}`);
     if (command === "preview") {
-      for (const scene of pack.scenes) console.log(`\n[${scene.episode}.${scene.beat}] ${scene.title}\n\n${formatScene(scene)}`);
+      for (const scene of source.scenes) console.log(`\n[${scene.episode}.${scene.beat}] ${scene.title}\n\n${formatScene(scene)}`);
     }
     return;
   }
@@ -92,8 +119,9 @@ export async function main(args: string[]): Promise<void> {
     if (!opts.id || !opts.premise) throw new Error("generate requires --id and --premise");
     if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/.test(opts.id)) throw new Error("Invalid --id (1–64 letters, digits, dots, underscores, hyphens)");
     const characters = opts.cast ? parseCast(JSON.parse(await readFile(opts.cast, "utf8"))) : DEFAULT_CAST;
-    const pack = await generatePack(config, { id: opts.id, premise: opts.premise, scenes: count(opts.scenes, 12, 6, 24), characters });
-    await save(pack, opts.out);
+    const input = { id: opts.id, premise: opts.premise, scenes: count(opts.scenes, 12, 6, 24), characters };
+    const story = /\.lor(?:\.txt)?$/i.test(opts.out) ? await generateLoreline(config, input) : await generatePack(config, input);
+    await save(story, opts.out);
   }
 }
 
