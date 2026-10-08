@@ -1,0 +1,855 @@
+{
+  "version": 1,
+  "id": "ghost-wire",
+  "title": "Ghost Wire",
+  "description": "NULL and HEX juggle stolen corporate evidence, a clinic's debt, and a captive Matrix courier.",
+  "characters": [
+    {
+      "name": "NULL",
+      "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+    },
+    {
+      "name": "HEX",
+      "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "builtin:42:1:1",
+      "title": "A receipt-shaped invitation",
+      "episode": 1,
+      "beat": 1,
+      "canon": "Evidence thread, setup. Socket offers NULL and HEX a paid extraction of the violet tariff ledger #1 from Vesper Utility in Lantern Row Block 1. This is the duo's first job in this serial. NULL wants a narrow scope; HEX suspects fine print.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Socket wants the violet tariff ledger #1 out of Vesper Utility. Read-only extraction. Allegedly."
+        },
+        {
+          "speaker": "HEX",
+          "text": "A megacorp invoice? Finally, crime with a stationery budget."
+        },
+        {
+          "speaker": "NULL",
+          "text": "The fee clears in Lantern Row Block 1. The contract says nothing about surviving collection."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:2",
+      "title": "Someone else's lights",
+      "episode": 1,
+      "beat": 2,
+      "canon": "Neighborhood thread, setup. HEX guarantees a new bridge loan from Railway Teeth to keep Lantern Row Block 1's clinic generator running. NULL discovers the guarantee only now. The new obligation is a deliberate choice to help another clinic.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Small detail. I guaranteed the clinic's fuel loan with Railway Teeth."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Define small without using the phrase repossession van."
+        },
+        {
+          "speaker": "HEX",
+          "text": "The kids have lights tonight. We can argue about my signature under them."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:3",
+      "title": "Three knocks in the noise",
+      "episode": 1,
+      "beat": 3,
+      "canon": "Courier thread, setup. A trapped courier intelligence sends three repeating knocks from inside Vesper Utility's Matrix host. The signal's identity is not yet known. HEX hears intent where NULL first checks for a lure.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Three knocks in the host noise. Too regular for interference."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Or somebody banging on a locked door. We checking which?"
+        },
+        {
+          "speaker": "NULL",
+          "text": "From outside the door. I have strong opinions about bait."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:4",
+      "title": "The customer is also the lock",
+      "episode": 1,
+      "beat": 4,
+      "canon": "Evidence thread, escalation. the violet tariff ledger #1 is protected by Vesper Utility's billing ICE, which mistakes inquiry for billable intrusion. NULL maps a narrow entry through the rooftop weather mast; HEX mocks corporate surveillance. Neither has extracted the archive yet.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Billing ICE guards the violet tariff ledger #1. It invoices trespass before it shoots."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Great. Murder with a customer-satisfaction survey."
+        },
+        {
+          "speaker": "NULL",
+          "text": "We enter through the rooftop weather mast. No answering anything marked helpful assistant."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:5",
+      "title": "The van has excellent manners",
+      "episode": 1,
+      "beat": 5,
+      "canon": "Neighborhood thread, escalation. Railway Teeth's collector arrives to claim the clinic generator before the loan's agreed deadline. The residents need time, not an armed confrontation. HEX buys one hour by offering to inspect the collector's account.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Railway Teeth sent a repo van. Smiling driver. That's always the expensive kind."
+        },
+        {
+          "speaker": "NULL",
+          "text": "The loan is not due until dawn. Ask for the account, not his kneecaps."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Bought us an hour. Apparently even extortion hates an audit."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:6",
+      "title": "A name through the bars",
+      "episode": 1,
+      "beat": 6,
+      "canon": "Courier thread, escalation. The captive identifies as Tinsel-1, a courier intelligence used to carry outage schedules. It can converse but cannot leave its encrypted cage. NULL verifies the signal instead of promising an untested rescue.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "The knocks carry a signed route stamp. Courier intelligence, calls itself Tinsel-1."
+        },
+        {
+          "speaker": "HEX",
+          "text": "A name. Already more customer service than this place deserves."
+        },
+        {
+          "speaker": "NULL",
+          "text": "It can speak through the cage. Leaving is another protocol entirely."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:7",
+      "title": "A costume with no pockets",
+      "episode": 1,
+      "beat": 7,
+      "canon": "Evidence thread, infiltration. NULL and HEX use the rooftop weather mast and a a municipal pigeon Matrix avatar to enter the billing host. A receptionist ICE challenges their cover; they pass by presenting a genuine maintenance complaint, not by combat.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Your cover avatar is a municipal pigeon. I'm not being seen with that."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Excellent. Stealth depends on that exact reaction."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Reception ICE accepted the maintenance complaint. Even its own doors hate management."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:8",
+      "title": "A favor with an antenna",
+      "episode": 1,
+      "beat": 8,
+      "canon": "Neighborhood thread, complication. The collector offers to delay repossession if HEX carries a tracker into the clinic. NULL spots the device; HEX refuses without exposing the residents' locations. The deadline still stands.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Collector offered an extension. Just carry his lucky coin inside."
+        },
+        {
+          "speaker": "NULL",
+          "text": "His lucky coin has a transmitter and no luck. Leave it outside."
+        },
+        {
+          "speaker": "HEX",
+          "text": "I've got a bent bottle-cap crown already. One cursed accessory is my limit."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:9",
+      "title": "No pocket-sized prisoners",
+      "episode": 1,
+      "beat": 9,
+      "canon": "Courier thread, consent. Tinsel-1 refuses to become a copied tool owned by the deckers. NULL agrees to move the original live process only if it consents, with no retained duplicate or ownership claim. Escape is still pending.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Tinsel-1 says no souvenir copies. Fair. I hate landlords too."
+        },
+        {
+          "speaker": "NULL",
+          "text": "One live migration. No duplicate, no leash, no claim of ownership."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Put that in the plan before the clever bit. People usually put it after."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:10",
+      "title": "An outage is a product",
+      "episode": 1,
+      "beat": 10,
+      "canon": "Evidence thread, revelation. The extracted archive proves Vesper Utility schedules utility outages to sell emergency rates, targeting clinics in Lantern Row Block 1. It also contains private resident addresses; those must not be sold or published.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "the violet tariff ledger #1 is an outage schedule. They manufacture emergencies, then sell relief."
+        },
+        {
+          "speaker": "HEX",
+          "text": "That's our clinic on the list. They sold it darkness twice."
+        },
+        {
+          "speaker": "NULL",
+          "text": "And resident addresses are embedded. Evidence out; people stay out of the blast radius."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:11",
+      "title": "The meter keeps eating",
+      "episode": 1,
+      "beat": 11,
+      "canon": "Neighborhood thread, revelation. The collector's account adds a fabricated hazard surcharge triggered by corporate outages. The surcharge, not the original fuel loan, explains the early repossession. The genuine loan remains payable.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Found the early-payment clause. Hazard surcharge. Same outage dates as the archive."
+        },
+        {
+          "speaker": "NULL",
+          "text": "The fuel debt is real. The penalty is engineered. Separate them."
+        },
+        {
+          "speaker": "HEX",
+          "text": "So we pay for the fuel, not the privilege of being robbed in the dark."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:12",
+      "title": "The cheaper rescue",
+      "episode": 1,
+      "beat": 12,
+      "canon": "Courier thread, threat. Corporate ICE offers a bounty for surrendering Tinsel-1. NULL rejects it and identifies the cage's live-migration lock. HEX maintains the courier's trust rather than treating the bounty as a negotiation.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "ICE offered a bounty for Tinsel-1. Enough to clear the clinic loan."
+        },
+        {
+          "speaker": "HEX",
+          "text": "No. We don't buy lights by putting somebody back in a box."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Agreed. Locating the live-migration lock, not the payment button."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:13",
+      "title": "The price of the whole file",
+      "episode": 1,
+      "beat": 13,
+      "canon": "Evidence thread, ethical turn. Socket's buyer wants the unredacted archive, including resident addresses. The duo refuses that sale and proposes authenticated, redacted evidence instead. Their original fee is now at risk.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Socket's buyer wants the whole file. Addresses included. Funny how buyers get hungry."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Then the buyer gets nothing. Offer a verified, redacted extract instead."
+        },
+        {
+          "speaker": "HEX",
+          "text": "There goes our easy payday. I was suspicious of it anyway."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:14",
+      "title": "A signature is not a fist",
+      "episode": 1,
+      "beat": 14,
+      "canon": "Neighborhood thread, leverage. HEX brings the surcharge evidence to the residents, who organize a countersigned dispute. NULL prepares a traceable escrow for the actual fuel principal. The residents, not the deckers, decide the settlement terms.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Clinic's waiting room has become a creditors' meeting. Everybody brought receipts."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Their dispute, their signatures. I'll escrow the fuel principal."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Turns out old ladies with folders are scarier than me. Respectfully."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:15",
+      "title": "The courier chooses a route",
+      "episode": 1,
+      "beat": 15,
+      "canon": "Courier thread, alliance. Tinsel-1 voluntarily supplies signed delivery timestamps proving the outage schedule was executed. The proof is not a condition of rescue. It chooses an independent relay as its destination and keeps authority to stop migration.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Tinsel-1 offered signed delivery timestamps. That proves the schedule actually ran."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Tell it the ride was free before the witness statement."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Already did. It chose an independent relay, and it holds the abort key."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:16",
+      "title": "A leak with a lint filter",
+      "episode": 1,
+      "beat": 16,
+      "canon": "Evidence thread, preparation. NULL removes resident identifiers and attaches the courier's signed proof. HEX arranges public mirrors through street kiosks. They publish only the safe evidence, never the raw archive or the captive's private keys.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Addresses removed. Signatures preserved. Raw archive stays sealed, never on the public mirrors."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Kiosk aunties have the release queued. You ever try intimidating six night-market aunties?"
+        },
+        {
+          "speaker": "NULL",
+          "text": "No. My risk model has a survival instinct."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:17",
+      "title": "The neighborhood answers",
+      "episode": 1,
+      "beat": 17,
+      "canon": "Neighborhood thread, confrontation. Residents present the dispute and funded principal escrow to Railway Teeth. Faced with public proof that it is collecting a fraudulent corporate penalty, the crew agrees to waive the surcharge in exchange for the legitimate principal. The generator remains in place.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Railway Teeth saw the signatures, the escrow, and their logo beside the fake surcharge."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Their options are principal paid or fraud advertised. What did they choose?"
+        },
+        {
+          "speaker": "HEX",
+          "text": "Principal. Van's backing up. Slowly, for dignity."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:18",
+      "title": "The door opens both ways",
+      "episode": 1,
+      "beat": 18,
+      "canon": "Courier thread, escape. NULL holds a narrow migration tunnel open while Tinsel-1 uses its abort key and verifies the independent relay. HEX distracts billing ICE with maintenance disputes. The migration completes without copying or owning the courier.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Migration tunnel open. The courier verified the relay and kept its own keys."
+        },
+        {
+          "speaker": "HEX",
+          "text": "I filed thirty maintenance complaints. Billing ICE is trying to invoice the concept of damp."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Tinsel-1 is across. Closing our access, not its door."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:19",
+      "title": "Evidence, with payment attached",
+      "episode": 1,
+      "beat": 19,
+      "canon": "Evidence thread, payoff. The redacted evidence reaches multiple public mirrors. Socket finds a civic watchdog buyer willing to pay for verification rather than resident data, restoring the job's fee. Vesper Utility cannot erase the copies already published.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Mirrors are live. Watchdog bought verification, not addresses. Fee just cleared."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Socket discovered a market for doing the correct thing. Disturbing, but welcome."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Vesper Utility can delete a file. Let's see it delete a neighborhood's memory."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:20",
+      "title": "Paid means paid",
+      "episode": 1,
+      "beat": 20,
+      "canon": "Neighborhood thread, payoff. The residents authorize release of the escrow. The legitimate fuel loan is paid, the fraudulent surcharge is canceled, and HEX's guarantee is formally discharged. The clinic keeps its generator and the signed settlement.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Escrow released with resident approval. Principal paid. Surcharge canceled. Your guarantee discharged."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Get that last part on paper. Actual paper. Harder to remotely amend."
+        },
+        {
+          "speaker": "NULL",
+          "text": "The clinic framed it beside the generator. Both are operational."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:21",
+      "title": "Not a pet, not a prize",
+      "episode": 1,
+      "beat": 21,
+      "canon": "Courier thread, payoff. Tinsel-1 takes control of its own independent relay lease, paid from the job fee with no service obligation. It explicitly declines employment with the deckers. They honor its independence.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Bought Tinsel-1 a relay lease with our cut. It asked if that makes it staff."
+        },
+        {
+          "speaker": "NULL",
+          "text": "No. Gift recorded, control transferred, no service owed."
+        },
+        {
+          "speaker": "HEX",
+          "text": "It declined anyway. First independent decision: excellent taste in employers."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:22",
+      "title": "The morning has consequences",
+      "episode": 1,
+      "beat": 22,
+      "canon": "Evidence thread, aftermath. An outside utility audit opens because of the published evidence, but no instant collapse of Vesper Utility occurs. Socket keeps the signed original under a protected evidence agreement. NULL and HEX accept a durable, limited victory.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Vesper Utility is under an outside utility audit. Not demolished. Not absolved. Audited."
+        },
+        {
+          "speaker": "HEX",
+          "text": "I can live with a win that takes minutes instead of explosions."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Socket is protecting the signed original. For once, custody is not a euphemism."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:23",
+      "title": "Dinner under working lights",
+      "episode": 1,
+      "beat": 23,
+      "canon": "Neighborhood thread, aftermath. The clinic has power and a settled account. The residents share soy dumplings with the deckers and start a fuel reserve so the same emergency does not immediately recur. HEX keeps a bent bottle-cap crown, not the collector's tracker.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "soy dumplings under working lights. They started a fuel reserve, too."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Excellent. A happy ending with an operating budget."
+        },
+        {
+          "speaker": "HEX",
+          "text": "And a bent bottle-cap crown still isn't a transmitter. That's my other happy ending."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:24",
+      "title": "The first voluntary delivery",
+      "episode": 1,
+      "beat": 24,
+      "canon": "Courier thread, aftermath. Now independent, Tinsel-1 chooses a paid delivery carrying the clinic's settlement rather than corporate outage orders. The deckers do not own its route or receive a duplicate. Its three-knock code becomes a friendly greeting.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Tinsel-1 took a paid route carrying the clinic's settlement. Its choice, its fee."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Same three knocks. Sounds different when nobody's locked in."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Yes. I have labeled this packet hello, not incident."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:25",
+      "title": "The evidence stays out",
+      "episode": 1,
+      "beat": 25,
+      "canon": "Evidence thread, lasting consequence. Street kiosks continue hosting the published evidence after the immediate job. The duo retains a modest share of the fee and buys spare equipment. Prior episodes' public evidence also remains available; victories are not erased for the next job.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Kiosks kept the evidence up. We kept enough fee for spare decks, not retirement."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Spare equipment is retirement planning for people with poor actuarial tables."
+        },
+        {
+          "speaker": "HEX",
+          "text": "You bought a backup cable before dessert. I know who I run with."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:26",
+      "title": "A favor, not a new bill",
+      "episode": 1,
+      "beat": 26,
+      "canon": "Neighborhood thread, lasting consequence. Lantern Row Block 1's clinic keeps its paid generator and fuel reserve. Residents refer a different neighborhood that needs help. HEX agrees only to hear its request; no new debt is incurred and the settled guarantee is not reopened.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "HEX",
+          "text": "Lantern Row Block 1's lights are staying on. Clinic asked if we'd hear another ward's problem."
+        },
+        {
+          "speaker": "NULL",
+          "text": "Hear, yes. Sign anything, no. The current account remains settled."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Look at us. Learning. Incredibly bad for our brand."
+        }
+      ]
+    },
+    {
+      "id": "builtin:42:1:27",
+      "title": "A network, not an ending button",
+      "episode": 1,
+      "beat": 27,
+      "canon": "Courier thread, lasting consequence and bridge. Tinsel-1 joins a voluntary network of independent couriers and sends the duo a lead on another captive elsewhere. This establishes the network for later episodes. The next episode is a distinct job; this courier's freedom, the clinic settlement, and the public evidence persist.",
+      "characters": [
+        {
+          "name": "NULL",
+          "persona": "A cautious veteran decker: precise, skeptical, dryly funny, protective of HEX."
+        },
+        {
+          "name": "HEX",
+          "persona": "An impulsive streetwise decker: perceptive, irreverent, inventive, loyal to NULL."
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "NULL",
+          "text": "Tinsel-1 joined the free couriers' network. New lead: another locked route, somewhere else."
+        },
+        {
+          "speaker": "HEX",
+          "text": "Then we visit somewhere else. This clinic keeps its lights. This courier keeps its keys."
+        },
+        {
+          "speaker": "NULL",
+          "text": "And this time I am checking your pockets before we meet the fixer."
+        }
+      ]
+    }
+  ]
+}
