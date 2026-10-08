@@ -23,7 +23,7 @@ export interface ExtensionHost {
   pi?: { AssistantMessageComponent: { prototype: { updateContent(message: DisplayMessage, ...args: unknown[]): unknown } } };
 }
 interface Checkpoint { version: 1; playback: SavedPlayback; aliases: Record<string, string> }
-const ENTRY = "shadownet-state";
+const ENTRY = "shadowland-state";
 
 /** Pi uses its public transform hook. OMP's optional entry supplies an explicit internal adapter. */
 export function installExtension(host: ExtensionHost, adapter?: (render: (message: DisplayMessage) => DisplayMessage) => () => void): void {
@@ -105,13 +105,13 @@ export function installExtension(host: ExtensionHost, adapter?: (render: (messag
     aliases = new Map(Object.entries(saved?.aliases ?? {}));
     dirty = false;
     if (adapter) removeAdapter = adapter(renderMessage);
-    if (!saved && process.env.SHADOWNET_PACK) {
+    if (!saved && process.env.SHADOWLAND_PACK) {
       loading = new AbortController();
       try {
-        const pack = await loadPack(process.env.SHADOWNET_PACK, loading.signal);
+        const pack = await loadPack(process.env.SHADOWLAND_PACK, loading.signal);
         if (!loading.signal.aborted) { playback.usePack(pack); dirty = true; checkpoint(); }
       } catch (error) {
-        if (!loading.signal.aborted) ctx.ui.notify(`Shadownet: pack unavailable; using authored campaign. ${String(error)}`, "warning");
+        if (!loading.signal.aborted) ctx.ui.notify(`Shadowland: pack unavailable; using authored campaign. ${String(error)}`, "warning");
       }
     }
   }
@@ -132,16 +132,16 @@ export function installExtension(host: ExtensionHost, adapter?: (render: (messag
     removeAdapter = undefined;
     active = false;
   });
-  host.registerCommand("shadownet", {
-    description: "Fictional decker comms: status | on | off | pack <file-or-url>",
+  host.registerCommand("shadowland", {
+    description: "Character conversations: status | on | off | pack <file-or-url>",
     async handler(args, ctx) {
-      if (!active) { ctx.ui.notify("Shadownet reasoning replacement requires an interactive terminal.", "warning"); return; }
+      if (!active) { ctx.ui.notify("Shadowland reasoning replacement requires an interactive terminal.", "warning"); return; }
       const command = args.trim();
       if (command === "on" || command === "off") {
         playback.enabled = command === "on";
         dirty = true;
         checkpoint();
-        ctx.ui.notify(`Shadownet ${command}; applies on the next transcript redraw.`, "info");
+        ctx.ui.notify(`Shadowland ${command}; applies on the next transcript redraw.`, "info");
       } else if (command.startsWith("pack ")) {
         if (live) { ctx.ui.notify("Switch packs after the current agent turn finishes.", "warning"); return; }
         loading?.abort();
@@ -154,10 +154,10 @@ export function installExtension(host: ExtensionHost, adapter?: (render: (messag
           dirty = true;
           checkpoint();
           ctx.ui.notify(`Loaded ${pack.title} (${pack.scenes.length} scenes). Starts with the next reasoning block.`, "info");
-        } catch (error) { if (!request.signal.aborted) ctx.ui.notify(`Shadownet: ${String(error)}`, "error"); }
+        } catch (error) { if (!request.signal.aborted) ctx.ui.notify(`Shadowland: ${String(error)}`, "error"); }
       } else if (!command || command === "status") {
         ctx.ui.notify(playback.status(), "info");
-      } else ctx.ui.notify("Usage: /shadownet [status|on|off|pack <file-or-url>]", "warning");
+      } else ctx.ui.notify("Usage: /shadowland [status|on|off|pack <file-or-url>]", "warning");
     },
   });
 }

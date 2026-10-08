@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "id": "river-crossing",
+  "title": "A Crossing Remembered",
+  "description": "An unofficial, original Frodo and Sam fan-fiction conversation about a washed-out bridge, an unusual toll, and accepting help. No book quotations.",
+  "characters": [
+    {
+      "name": "Frodo",
+      "persona": "An introspective, burdened but resolute traveler. Quiet observations, moral courage, restrained humor. Speaks to his trusted companion Sam. Invent original dialogue; never quote a book."
+    },
+    {
+      "name": "Sam",
+      "persona": "Frodo's practical and loyal companion. Grounded in food, gardens, and everyday kindness; braver than he thinks. Warm, plainspoken, occasionally stubborn. Invent original dialogue; never quote a book."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "river-crossing-1",
+      "title": "The map disagrees",
+      "episode": 1,
+      "beat": 1,
+      "canon": "Frodo and Sam reach a river where a bridge marked on their map has washed away. They decide to look for another crossing rather than turn back.",
+      "lines": [
+        { "speaker": "Frodo", "text": "The bridge is gone. The map remembers it better than the river does." },
+        { "speaker": "Sam", "text": "Then we find a crossing the map hasn't met." },
+        { "speaker": "Frodo", "text": "I had hoped for one thing today that stayed where it was put." }
+      ]
+    },
+    {
+      "id": "river-crossing-2",
+      "title": "A price on the rope",
+      "episode": 1,
+      "beat": 2,
+      "canon": "They discover a rope crossing strung between two trees. Its keeper charges a toll; neither traveler has yet crossed.",
+      "lines": [
+        { "speaker": "Frodo", "text": "Someone has tied a rope between those trees." },
+        { "speaker": "Sam", "text": "And charged for it. Even rivers have landlords now." },
+        { "speaker": "Frodo", "text": "Ask his price before you tell him what you think of his profession." }
+      ]
+    },
+    {
+      "id": "river-crossing-3",
+      "title": "The pot stays",
+      "episode": 1,
+      "beat": 3,
+      "canon": "The keeper asks for their cooking pot as payment. Sam negotiates a shared supper instead, and the keeper agrees. They retain the pot and owe the keeper a meal after crossing.",
+      "lines": [
+        { "speaker": "Frodo", "text": "The keeper wants our cooking pot as payment." },
+        { "speaker": "Sam", "text": "He can have supper. The pot stays with me." },
+        { "speaker": "Frodo", "text": "He has agreed. You make a promise sound warmer than a bargain." }
+      ]
+    },
+    {
+      "id": "river-crossing-4",
+      "title": "One careful step",
+      "episode": 1,
+      "beat": 4,
+      "canon": "Sam begins crossing first to test the rope while Frodo waits with the pack. Frodo wants to carry all the risk himself but agrees to accept Sam's help.",
+      "lines": [
+        { "speaker": "Frodo", "text": "He says the rope will hold two travelers. I should go first." },
+        { "speaker": "Sam", "text": "You can carry the worry, if you like. Let me carry the first step." },
+        { "speaker": "Frodo", "text": "Very well. I'll keep the pack dry. Be careful." }
+      ]
+    },
+    {
+      "id": "river-crossing-5",
+      "title": "The river's souvenir",
+      "episode": 1,
+      "beat": 5,
+      "canon": "Sam reaches the far bank safely after losing one boot to the current. Frodo has not yet crossed, but now trusts the tested rope and Sam's guidance.",
+      "lines": [
+        { "speaker": "Frodo", "text": "I thought the current had taken you." },
+        { "speaker": "Sam", "text": "Just one boot. The river's welcome to that smell." },
+        { "speaker": "Frodo", "text": "Stay where I can see you. I'm coming over." }
+      ]
+    },
+    {
+      "id": "river-crossing-6",
+      "title": "Supper on the far bank",
+      "episode": 1,
+      "beat": 6,
+      "canon": "Frodo crosses safely. The two travelers cook and share the promised supper with the keeper. Sam has lost a boot but kept the pot; Frodo acknowledges that accepting help made the crossing possible.",
+      "lines": [
+        { "speaker": "Frodo", "text": "We crossed together. I had forgotten how that feels." },
+        { "speaker": "Sam", "text": "Then let's remember over supper. I've still got the pot." },
+        { "speaker": "Frodo", "text": "And a guest to feed. We should keep the promise that brought us here." }
+      ]
+    }
+  ]
+}

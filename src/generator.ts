@@ -18,16 +18,16 @@ Each exchange contains 2–4 short lines, includes both cast members, and uses t
 Each text is a single plain-text line of at most 240 characters, with no control characters, terminal escapes, or invisible formatting characters.
 Return only the requested JSON object, without Markdown fences or commentary.`;
 
-/** No provider is enabled unless SHADOWNET_MODEL is explicitly configured. */
+/** No provider is enabled unless SHADOWLAND_MODEL is explicitly configured. */
 export function configFromEnv(
   env: Record<string, string | undefined>,
 ): GeneratorConfig | undefined {
-  const model = env.SHADOWNET_MODEL?.trim();
+  const model = env.SHADOWLAND_MODEL?.trim();
   if (!model) return undefined;
 
-  const apiKey = env.SHADOWNET_API_KEY?.trim() || env.OPENAI_API_KEY?.trim();
+  const apiKey = env.SHADOWLAND_API_KEY?.trim() || env.OPENAI_API_KEY?.trim();
   return {
-    baseUrl: env.SHADOWNET_BASE_URL?.trim() || "https://api.openai.com/v1",
+    baseUrl: env.SHADOWLAND_BASE_URL?.trim() || "https://api.openai.com/v1",
     model,
     ...(apiKey ? { apiKey } : {}),
   };
@@ -189,7 +189,7 @@ async function requestJson(
   if (signal?.aborted) onAbort();
   else signal?.addEventListener("abort", onAbort, { once: true });
   const timeout = setTimeout(
-    () => controller.abort(new Error("ShadowNet generation timed out after 15 seconds.")),
+    () => controller.abort(new Error("Shadowland generation timed out after 15 seconds.")),
     TIMEOUT_MS,
   );
 
@@ -215,31 +215,31 @@ async function requestJson(
       }),
     });
     if (!response.ok) {
-      throw new Error(`ShadowNet provider returned HTTP ${response.status}.`);
+      throw new Error(`Shadowland provider returned HTTP ${response.status}.`);
     }
 
     let payload: unknown;
     try {
       payload = await response.json();
     } catch {
-      throw new Error("ShadowNet provider returned an invalid JSON response.");
+      throw new Error("Shadowland provider returned an invalid JSON response.");
     }
     const object = requireObject(payload, "Provider response");
     if (!Array.isArray(object.choices) || object.choices.length === 0) {
-      throw new Error("ShadowNet provider response is missing its completion choices.");
+      throw new Error("Shadowland provider response is missing its completion choices.");
     }
     const choice = requireObject(object.choices[0], "Provider completion");
     if (choice.finish_reason === "length") {
-      throw new Error("ShadowNet provider truncated the generated JSON at its token limit.");
+      throw new Error("Shadowland provider truncated the generated JSON at its token limit.");
     }
     const message = requireObject(choice.message, "Provider completion message");
     if (typeof message.content !== "string" || !message.content.trim()) {
-      throw new Error("ShadowNet provider completion must contain a nonempty JSON string.");
+      throw new Error("Shadowland provider completion must contain a nonempty JSON string.");
     }
     try {
       return JSON.parse(message.content) as unknown;
     } catch {
-      throw new Error("ShadowNet provider completion is not valid JSON; Markdown fences are not accepted.");
+      throw new Error("Shadowland provider completion is not valid JSON; Markdown fences are not accepted.");
     }
   } catch (error) {
     if (controller.signal.aborted) throw controller.signal.reason;

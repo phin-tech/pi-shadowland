@@ -413,5 +413,5 @@ function safeMarkdown(text: string): string {
 
 export function formatScene(scene: Scene): string {
   const lines = scene.lines.map((line) => `${safeMarkdown(line.speaker)}: ${safeMarkdown(line.text)}`);
-  return ["SHADOWNET · fictional comms", ...lines].join("\n\n");
+  return ["SHADOWLAND · fictional dialogue", ...lines].join("\n\n");
 }

@@ -1,9 +1,9 @@
 {
-  "name": "pi-shadownet",
+  "name": "pi-shadowland",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Fictional decker comms in place of reasoning text, with publishable story packs",
+  "description": "Character conversations in place of Pi/OMP reasoning, with themed and publishable story packs",
   "scripts": {
     "stories": "bun run src/cli.ts",
     "check": "tsc --noEmit",

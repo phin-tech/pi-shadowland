@@ -1,12 +1,12 @@
 import { installExtension, type DisplayMessage, type ExtensionHost } from "./src/extension.js";
 
-const PATCH = Symbol.for("pi-shadownet.omp-renderer");
+const PATCH = Symbol.for("pi-shadowland.omp-renderer");
 
 /** Explicit opt-in: OMP 18.8.5 has no public thinking-text replacement hook. */
-export default function shadownetOMP(pi: ExtensionHost): void {
+export default function shadowlandOMP(pi: ExtensionHost): void {
   const prototype = pi.pi?.AssistantMessageComponent?.prototype;
   if (!prototype || typeof prototype.updateContent !== "function") {
-    throw new Error("Shadownet: this OMP build does not expose the expected assistant renderer. No display hook was installed.");
+    throw new Error("Shadowland: this OMP build does not expose the expected assistant renderer. No display hook was installed.");
   }
   installExtension(pi, transform => {
     const target = prototype as typeof prototype & { [PATCH]?: () => void };

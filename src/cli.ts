@@ -4,7 +4,7 @@ import { createState, nextScene, formatScene, DEFAULT_CAST } from "./story.js";
 import { configFromEnv, generatePack, augmentScene } from "./generator.js";
 import { loadPack, parsePack, parseCast, type StoryPack } from "./packs.js";
 
-const HELP = `shadownet — generate and publish fictional decker conversations
+const HELP = `shadowland — generate and publish themed character conversations
 
   bun run src/cli.ts builtin --out stories/ghost-wire.json [--seed 42] [--scenes 27]
   bun run src/cli.ts generate --id ghost-wire --premise "A fixer sells a haunted datachip" --out stories/ghost-wire.json [--scenes 12]
@@ -13,8 +13,8 @@ const HELP = `shadownet — generate and publish fictional decker conversations
   bun run src/cli.ts validate <file-or-url>
   bun run src/cli.ts preview <file-or-url>
 
-Generation is opt-in. Set SHADOWNET_MODEL, SHADOWNET_API_KEY (or OPENAI_API_KEY),
-and optionally SHADOWNET_BASE_URL (default https://api.openai.com/v1).
+Generation is opt-in. Set SHADOWLAND_MODEL, SHADOWLAND_API_KEY (or OPENAI_API_KEY),
+and optionally SHADOWLAND_BASE_URL (default https://api.openai.com/v1).
 Local OpenAI-compatible servers may omit the key. No coding context is sent.
 Output files are never overwritten. Commit JSON to GitHub; use its raw URL.
 `;
@@ -64,7 +64,7 @@ export async function main(args: string[]): Promise<void> {
     try { await stat(opts.out); throw new Error(`Output already exists: ${opts.out}`); }
     catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
     const config = configFromEnv(process.env);
-    if (!config) throw new Error("Set SHADOWNET_MODEL to enable generation");
+    if (!config) throw new Error("Set SHADOWLAND_MODEL to enable generation");
     const pack = await loadPack(source);
     const index = count(opts.scene, 1, 1, pack.scenes.length) - 1;
     pack.scenes[index] = await augmentScene(pack.scenes[index], config);
@@ -88,7 +88,7 @@ export async function main(args: string[]): Promise<void> {
     await save({ version: 1, id: opts.id ?? "ghost-wire", title: "Ghost Wire", description: "NULL and HEX juggle stolen corporate evidence, a clinic's debt, and a captive Matrix courier.", characters: DEFAULT_CAST, scenes }, opts.out);
   } else {
     const config = configFromEnv(process.env);
-    if (!config) throw new Error("Set SHADOWNET_MODEL to enable generation");
+    if (!config) throw new Error("Set SHADOWLAND_MODEL to enable generation");
     if (!opts.id || !opts.premise) throw new Error("generate requires --id and --premise");
     if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/.test(opts.id)) throw new Error("Invalid --id (1–64 letters, digits, dots, underscores, hyphens)");
     const characters = opts.cast ? parseCast(JSON.parse(await readFile(opts.cast, "utf8"))) : DEFAULT_CAST;
@@ -99,7 +99,7 @@ export async function main(args: string[]): Promise<void> {
 
 if (import.meta.main) {
   main(process.argv.slice(2)).catch(error => {
-    console.error(`shadownet: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`shadowland: ${error instanceof Error ? error.message : String(error)}`);
     process.exitCode = 1;
   });
 }

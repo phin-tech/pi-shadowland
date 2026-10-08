@@ -1,6 +1,8 @@
-# pi-shadownet
+# Shadowland
 
-Display fictional conversations in place of visible assistant reasoning. Tools and final answers retain their normal rendering. The real reasoning stays in the host's messages and provider context; the fiction is labeled **SHADOWNET · fictional comms**.
+Shadowland (`pi-shadowland`) replaces visible assistant reasoning with fictional conversations between two characters. Packs define the cast, voices, setting, and ongoing story: fantasy companions, detectives, office comedy, legal absurdity, or cyberpunk deckers. Shadowrun-style comms are one theme, not a requirement. Tools and final answers retain their normal rendering. Real reasoning stays in the host's messages and provider context; fiction is labeled **SHADOWLAND · fictional dialogue**.
+
+Repository: [phin-tech/pi-shadowland](https://github.com/phin-tech/pi-shadowland).
 
 ## Host support
 
@@ -22,9 +24,11 @@ omp -e "$PWD/omp.ts"
 
 Both package manifests are included for installing the checkout through the host's package manager. No installation or settings change is performed automatically.
 
-## Built-in campaign
+## Story packs and the default campaign
 
 NULL is a cautious veteran decker. HEX is an impulsive, streetwise improviser. The authored serial interleaves corporate evidence theft, a neighborhood clinic's debt, and a captive Matrix courier. Each episode has 27 exchanges, including payoffs and aftermath. Seeded madlib details remain stable within an episode; later episodes acknowledge completed jobs rather than undoing their endings.
+
+For a ready-to-play non-cyberpunk theme, `stories/river-crossing.json` contains six original Frodo/Sam exchanges about a lost bridge, a negotiated toll, and accepting help. It is unofficial fan fiction, not an excerpt from a book. Choose either pack using the same command and loader; casts and dialogue are pack data, not hard-coded renderer roles.
 
 A reasoning block gets a short exchange, not one new exchange per token. Streaming updates and redraws reuse it. Story progress and selected pack snapshots are stored with `appendEntry`, outside model context, and restored from the active session branch. Do not use `--no-session` if you want durable continuity.
 
@@ -33,11 +37,11 @@ Pi's public transformer identifies content by Markdown, not message id: identica
 Commands:
 
 ```text
-/shadownet status
-/shadownet on
-/shadownet off
-/shadownet pack /absolute/path/to/stories/ghost-wire.json
-/shadownet pack https://raw.githubusercontent.com/OWNER/REPO/COMMIT/stories/ghost-wire.json
+/shadowland status
+/shadowland on
+/shadowland off
+/shadowland pack /absolute/path/to/stories/river-crossing.json
+/shadowland pack https://raw.githubusercontent.com/phin-tech/pi-shadowland/main/stories/ghost-wire.json
 ```
 
 On/off applies on the next transcript redraw. Switch packs while idle. Existing saved exchanges retain their original text; a new pack starts on the next unassigned block. A finite pack ends with a holding exchange in the same cast, not a restart or a switch to unrelated characters.
@@ -45,11 +49,11 @@ On/off applies on the next transcript redraw. Switch packs while idle. Existing 
 To choose a pack at startup:
 
 ```sh
-SHADOWNET_PACK="$PWD/stories/ghost-wire.json" pi -e "$PWD/index.ts"
-SHADOWNET_PACK="$PWD/stories/ghost-wire.json" omp -e "$PWD/omp.ts"
+SHADOWLAND_PACK="$PWD/stories/river-crossing.json" pi -e "$PWD/index.ts"
+SHADOWLAND_PACK="$PWD/stories/river-crossing.json" omp -e "$PWD/omp.ts"
 ```
 
-The environment selection applies only to sessions without a saved Shadownet checkpoint. Resumed sessions keep their saved pack and cursor. Loading errors at startup produce a warning and use the built-in campaign; errors from `/shadownet pack` leave the current pack unchanged. URLs fetch once on selection, not during each reasoning update. Resume uses the saved snapshot rather than downloading a changed remote pack.
+The environment selection applies only to sessions without a saved Shadowland checkpoint. Resumed sessions keep their saved pack and cursor. Loading errors at startup produce a warning and use the built-in campaign; errors from `/shadowland pack` leave the current pack unchanged. URLs fetch once on selection, not during each reasoning update. Resume uses the saved snapshot rather than downloading a changed remote pack.
 
 ## Generate, review, and host packs
 
@@ -62,14 +66,14 @@ bun run stories preview stories/new-run.json
 bun run stories validate stories/new-run.json
 ```
 
-`stories/ghost-wire.json` is a ready-to-publish 27-scene authored pack. `builtin` produces another reproducible madlib variant without calling any model. Output files are never overwritten.
+`stories/ghost-wire.json` is the 27-scene decker pack; `stories/river-crossing.json` is the six-scene fantasy pack. `builtin` produces a reproducible madlib variant of the default decker campaign without calling any model. Other themes use a custom cast and premise or a handwritten pack. Output files are never overwritten.
 
 Cheap-model generation is explicit and separate from coding. Set an OpenAI-compatible model and endpoint:
 
 ```sh
-export SHADOWNET_MODEL=gpt-4o-mini
-export SHADOWNET_API_KEY="$OPENAI_API_KEY"
-# Optional: SHADOWNET_BASE_URL, default https://api.openai.com/v1
+export SHADOWLAND_MODEL=gpt-4o-mini
+export SHADOWLAND_API_KEY="$OPENAI_API_KEY"
+# Optional: SHADOWLAND_BASE_URL, default https://api.openai.com/v1
 
 bun run stories generate \
   --id haunted-chip \
@@ -78,7 +82,7 @@ bun run stories generate \
   --out stories/haunted-chip.json
 ```
 
-Generation accepts 6–24 ordered scenes in one request. The request includes only the cast and fictional premise, never your coding conversation, files, tool output, or actual reasoning. It has a 15-second timeout and a bounded output-token budget. A local OpenAI-compatible server can use `SHADOWNET_BASE_URL` without an API key. `SHADOWNET_API_KEY` takes precedence over `OPENAI_API_KEY`.
+Generation accepts 6–24 ordered scenes in one request. The request includes only the cast and fictional premise, never your coding conversation, files, tool output, or actual reasoning. It has a 15-second timeout and a bounded output-token budget. A local OpenAI-compatible server can use `SHADOWLAND_BASE_URL` without an API key. `SHADOWLAND_API_KEY` takes precedence over `OPENAI_API_KEY`.
 
 To rewrite one scene's dialogue while retaining its metadata and intended canon:
 
@@ -89,9 +93,9 @@ bun run stories augment stories/haunted-chip.json \
 
 The prompt asks the model to preserve canon; structural validation cannot prove narrative continuity. Review generated scenes before publishing. Failed, malformed, truncated, or invalid responses fail explicitly instead of producing a pretend pack.
 
-### Book-character casts
+### Any two characters
 
-Use `--cast` with a JSON array of exactly two `{ "name", "persona" }` objects. Character names are used as the dialogue speakers; persona descriptions establish voices and relationships. `casts/fantasy-companions.json` demonstrates Frodo and Sam:
+Use `--cast` with a JSON array of exactly two `{ "name", "persona" }` objects. Names become dialogue speakers; personas establish voices and relationships. No Shadowrun terminology is required. Create original characters for any genre, or use recognizable book characters for new fan-fiction scenes. `casts/fantasy-companions.json` demonstrates Frodo and Sam:
 
 ```sh
 bun run stories generate \
@@ -108,7 +112,7 @@ Recognizable characters can be used for original fan-fiction dialogue. Do not co
 
 1. Generate or hand-author a pack; preview and validate it.
 2. Commit the JSON under `stories/` in a GitHub repository.
-3. Select its **raw** URL with `/shadownet pack` or `SHADOWNET_PACK`. A normal GitHub HTML/blob URL is not JSON. Pin a commit SHA for reproducible content.
+3. Select its **raw** URL with `/shadowland pack` or `SHADOWLAND_PACK`. A normal GitHub HTML/blob URL is not JSON. Pin a commit SHA for reproducible content.
 
 GitHub Pages or any HTTP(S) static JSON host also works. GitHub publishing is manual; the CLI does not need GitHub credentials, create repositories, or push commits. Public URLs must be accessible without authentication. Packs are data, never executable extensions.
 
@@ -153,4 +157,6 @@ bun test
 
 Exercised: real Pi 0.85.1 and OMP 18.8.5 ANSI terminal replay and live reasoning streaming with a local provider fixture; preservation of canonical reasoning in both saved sessions; OMP shutdown without raw-reasoning repaint; OMP resume retaining the first exchange and advancing to the next saved-pack beat; a custom Frodo/Sam pack in the Pi terminal; generate/augment/validate/preview CLI flows; HTTP-hosted pack loading; malformed completion rejection and request cancellation.
 
-No paid generation provider, actual GitHub publication, Tern native surface, or host-upgrade compatibility was exercised. Narrative quality of a chosen cheap model remains something to review, not an assertion of the fixture smoke runs.
+Shadowland cutover checks: TypeScript and seven regression tests pass; the new fantasy pack validates and previews; `SHADOWLAND_MODEL` / `SHADOWLAND_BASE_URL` / `SHADOWLAND_API_KEY` drive generate and augment against a local provider fixture; `SHADOWLAND_PACK` loads fantasy dialogue into both terminal UIs; `/shadowland status` reports Pi progress; `/shadowland pack` selects the GitHub-hosted Ghost Wire pack in OMP and persists the selection under `shadowland-state`.
+
+The earlier pack was published to GitHub and its raw URL validated. No paid generation provider, Tern native surface, or host-upgrade compatibility was exercised. Narrative quality of a chosen cheap model remains something to review, not an assertion of the fixture smoke runs.

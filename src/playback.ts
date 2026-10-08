@@ -25,7 +25,7 @@ export class Playback {
 
   constructor(saved?: SavedPlayback) {
     if (saved) {
-      if (saved.version !== 1 || saved.state?.version !== 1 || !Number.isSafeInteger(saved.state.cursor) || saved.state.cursor < 0 || !Number.isSafeInteger(saved.state.seed) || !Number.isSafeInteger(saved.packCursor) || saved.packCursor < 0) throw new Error("Invalid saved Shadownet story state");
+      if (saved.version !== 1 || saved.state?.version !== 1 || !Number.isSafeInteger(saved.state.cursor) || saved.state.cursor < 0 || !Number.isSafeInteger(saved.state.seed) || !Number.isSafeInteger(saved.packCursor) || saved.packCursor < 0) throw new Error("Invalid saved Shadowland story state");
       this.state = { ...saved.state };
       this.pack = saved.pack ? parsePack(saved.pack) : undefined;
       this.packCursor = saved.packCursor;
